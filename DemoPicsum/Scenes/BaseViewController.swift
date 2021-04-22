@@ -49,7 +49,14 @@ class BaseViewController: UIViewController {
     
     func setupIndicator() {
         self.indicatorContainer.isHidden = true
-        self.navigationController?.view.addSubview(indicatorContainer)
+        
+        let navBarHidden = self.navigationController?.navigationBar.isHidden ?? true
+        if !navBarHidden {
+            self.navigationController?.view.addSubview(indicatorContainer)
+        } else {
+            self.view.addSubview(indicatorContainer)
+        }
+        
         self.indicatorContainer.addSubview(indicator)
         indicatorContainer.centerInSuperview(size: CGSize(width: screenWidth, height: screenHeight))
         indicator.centerInSuperview(size: CGSize(width: 48, height: 48))
@@ -65,5 +72,20 @@ class BaseViewController: UIViewController {
         } else {
             indicator.stopAnimating()
         }
+    }
+    
+    // MARK: - Alert
+    func displayAlert(title: String? = nil, message: String? = nil, callback: ((UIAlertAction) -> Void)? = nil) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        alertController.addAction(
+            UIAlertAction(title: "OK", style: .default, handler: callback)
+        )
+            
+        present(alertController, animated: true, completion: nil)
     }
 }

@@ -12,13 +12,18 @@ protocol PhotoPresenterInput
     func presentFetchResults(response: PhotoModel.Fetch.Response);
 }
 
+protocol PhotoPresenterOutput: class
+{
+    func successFetchedItems(viewModel: PhotoModel.Fetch.ViewModel)
+    func errorFetchingItems(viewModel: PhotoModel.Fetch.ViewModel)
+}
+
 class PhotoScenePresenter: PhotoPresenterInput {
     
     weak var output: PhotoPresenterOutput?
     
     // MARK: - Presentation logic
     func presentFetchResults(response: PhotoModel.Fetch.Response) {
-        // NOTE: Format the response from the Interactor and pass the result back to the View Controller
         let viewModel = PhotoModel.Fetch.ViewModel(photos: response.dataObj?.photos, isError: response.isError, message: response.message)
         
         if response.isError{

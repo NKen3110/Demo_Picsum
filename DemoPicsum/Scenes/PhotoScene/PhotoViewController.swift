@@ -8,12 +8,6 @@
 import UIKit
 import SDWebImage
 
-protocol PhotoPresenterOutput: class
-{
-    func successFetchedItems(viewModel: PhotoModel.Fetch.ViewModel)
-    func errorFetchingItems(viewModel: PhotoModel.Fetch.ViewModel)
-}
-
 class PhotoViewController: BaseViewController, UICollectionViewDataSource, PhotoPresenterOutput {
 
     @IBOutlet weak var photoColleectionView: UICollectionView!
@@ -151,6 +145,7 @@ class PhotoViewController: BaseViewController, UICollectionViewDataSource, Photo
     
     func errorFetchingItems(viewModel: PhotoModel.Fetch.ViewModel) {
         self.showIndicator(false)
+        self.displayAlert(message: viewModel.message)
         print("Fail Fetch Data \(String(describing: viewModel.message))")
     }
     
